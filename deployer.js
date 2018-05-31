@@ -10,6 +10,10 @@ exports.buildABI = function(contractFile) {
 };
 
 function solveContract(contractFile) {
+  if (!fs.existsSync(contractFile)) {
+    throw Error("Can not read the contract file.");
+  }
+
   let input = fs.readFileSync(contractFile);
   let output = solc.compile(input.toString(), 1);
   let contractKey = Object.keys(output.contracts)[0];
@@ -20,6 +24,10 @@ function solveContract(contractFile) {
 
 
 exports.deploy = function(port, contractFile) {
+  if (!fs.existsSync(contractFile)) {
+    throw Error("Can not read the contract file.");
+  }
+
   server.listen(port);
   let web3URL = 'http://localhost:' + port;
   let web3 = new Web3(new Web3.providers.HttpProvider(web3URL));
@@ -30,7 +38,7 @@ exports.deploy = function(port, contractFile) {
       if (!accounts || accounts.length < 1) {
         console.error('No accounts are available, the contract %s was not deployed.', contractFile);
         reject(Error('No accounts are available'));
-      } 
+      }
 
       let contractMeta = solveContract(contractFile);
       let bytecode = contractMeta.bytecode;
