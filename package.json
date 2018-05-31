@@ -7,10 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "web3",
+    "parity",
     "blockchain",
     "migrate"
-    "ganache"
   ],
   "author": "Norgoci Nici Nici",
   "license": "Apache-2.0",
