@@ -1,2 +1,3 @@
-# web3-toolbox
-A set of commpon purposed NodeJs Web3 scripts.
+# Web3-toolbox
+
+A set of common purposed NodeJs Web3 scripts.
