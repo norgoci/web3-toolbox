@@ -1,13 +1,19 @@
 {
-  "name": "ttt",
+  "name": "web3-toolbox",
   "version": "1.0.0",
-  "description": "",
+  "description": "A set of common purposed NodeJs Web3 scripts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "web3",
+    "blockchain",
+    "migrate"
+    "ganache"
+  ],
+  "author": "Norgoci Nici Nici",
+  "license": "Apache-2.0",
   "dependencies": {
     "ganache-cli": "^6.1.0",
     "solc": "^0.4.24",
