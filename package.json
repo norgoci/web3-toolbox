@@ -1,6 +1,6 @@
 {
   "name": "web3-toolbox",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A set of common purposed NodeJs Web3 scripts",
   "main": "index.js",
   "scripts": {
