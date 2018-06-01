@@ -33,38 +33,48 @@ exports.deploy = function(port, contractFile) {
   let web3 = new Web3(new Web3.providers.HttpProvider(web3URL));
   console.log('Listen to : %s', web3URL);
   let eth = web3.eth;
+
   return new Promise(function(resolve, reject) {
       let accounts = eth.getAccounts().then(function(accounts) {
       if (!accounts || accounts.length < 1) {
-        console.error('No accounts are available, the contract %s was not deployed.', contractFile);
-        reject(Error('No accounts are available'));
+        console.error('No accounts are available, the contract %s *WAS NOT* deployed.', contractFile);
+        reject(Error('No accounts are available.'));
       }
 
       let contractMeta = solveContract(contractFile);
       let bytecode = contractMeta.bytecode;
       let abi = contractMeta.abi;
 
-      let account = accounts[0];
-      let fromJSON = {
-        from: account,
-        gas: 1500000,
-        gasPrice: '30000000000000'
-      };
+      new eth.Contract(abi).deploy({data: bytecode})
+        .estimateGas((error, gasAmount) => {
+          if (error) {
+            console.error(error);
+            reject(error);
+          }
 
-      let contract = new eth.Contract(abi).deploy({
-        data: bytecode
-      }).send(fromJSON, function(error, transactionHash) {
-        if (error) {
-          console.error(error);
-          reject(error);
-        }
+          let account = accounts[0];
+          let fromJSON = {
+            from: account,
+            gas: gasAmount,
+            gasPrice: '30000000000000'
+          };
+          
+          // // TODO: find a better way to pile the estimated gas
+          new eth.Contract(abi).deploy({
+            data: bytecode
+          }).send(fromJSON, function(error, transactionHash) {
+            if (error) {
+              console.error(error);
+              reject(error);
+            }
 
-        if (!transactionHash) {
-          console.error('The contract %s was not deployed on the account %s.', contractFile, account);
-          reject(Error('The contract was not deployed'));
-        }
+            if (!transactionHash) {
+              console.error('The contract %s *WAS NOT* deployed on the account %s.', contractFile, account);
+              reject(Error('The contract *WAS NOT* deployed'));
+            }
 
-        resolve([account, transactionHash, contractFile]);
+            resolve([account, transactionHash, gasAmount, contractFile]);
+          });
       });
     });
   });
