@@ -91,7 +91,8 @@ exports.deploy = function(port, contractFile) {
                 gas: gasAmount,
                 contract: {
                   file: contractFile,
-                  address: account
+                  address: contractAddress,
+                  abi: abi
                 }
               };
 
