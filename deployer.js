@@ -58,8 +58,8 @@ exports.deploy = function(port, contractFile) {
             gas: gasAmount,
             gasPrice: '30000000000000'
           };
-          
-          // // TODO: find a better way to pile the estimated gas
+
+          // // TODO: find a better way to find the estimated gas
           new eth.Contract(abi).deploy({
             data: bytecode
           }).send(fromJSON, function(error, transactionHash) {
@@ -73,7 +73,30 @@ exports.deploy = function(port, contractFile) {
               reject(Error('The contract *WAS NOT* deployed'));
             }
 
-            resolve([account, transactionHash, gasAmount, contractFile]);
+            eth.getTransactionReceipt(transactionHash).then(function (transactionReceipt) {
+              if (!transactionReceipt) {
+                console.error('No transaction receipt for the transation, the contract *WAS NOT* deployed.');
+                reject(Error('No transaction receipt for the transation'));
+              }
+
+              let contractAddress = transactionReceipt.contractAddress;
+              if (!contractAddress) {
+                console.error('No contract address found, the contract *WAS NOT* deployed..');
+                reject(Error('No contract address found.'));
+              }
+
+              let result = {
+                owner:account,
+                transactionHash: transactionHash,
+                gas: gasAmount,
+                contract: {
+                  file: contractFile,
+                  address: account
+                }
+              };
+
+              resolve(result);
+            });
           });
       });
     });
