@@ -1,0 +1,15 @@
+language: node_js
+
+node_js:
+  - 8
+
+before_script:
+  - yarn --version
+  - node -v
+  - yarn install
+
+script:
+  - npm test
+
+notifications:
+  email: false
