@@ -89,13 +89,22 @@ exports.deploy = function(port, contractFile) {
                 owner:account,
                 transactionHash: transactionHash,
                 gas: gasAmount,
+                gasPrice: fromJSON.gasPrice,
                 contract: {
                   file: contractFile,
                   address: contractAddress,
                   abi: abi
-                }
+                },
+                accountToKey: {}
               };
 
+              let ganacheState = server.provider.manager.state;
+              let ganacheAccounts = ganacheState.accounts;
+              let ganacheAddresses = Object.keys(ganacheAccounts);
+              ganacheAddresses.forEach(function(address, index) {
+                let key = ganacheAccounts[address].secretKey.toString("hex");
+                result.accountToKey[address] = key;
+              });
               resolve(result);
             });
           });

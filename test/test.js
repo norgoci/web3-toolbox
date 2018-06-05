@@ -22,10 +22,16 @@ describe('test deployer', function() {
     assert(deployReport.owner, 'The contract ownwer is undefined.');
     assert(deployReport.transactionHash, 'The contract deploy transaction hash is undefined.');
     assert(deployReport.gas, 'The contract deploy transation gas value is undefined.');
+    assert(deployReport.gasPrice, 'The contract deploy transation gas price is undefined.');
     assert(deployReport.contract, 'The contract metadata is undefined.');
     assert(deployReport.contract.file, 'The contract file is undefined.');
     assert(deployReport.contract.abi, 'The contract file is undefined.');
     assert(deployReport.contract.address, 'The contract file is undefined.');
+    assert(deployReport.accountToKey, 'The accounts to key mapping can is undefined.');
+
+    let accountToKey = deployReport.accountToKey;
+    let accounts = Object.keys(accountToKey);
+    assert.equal(10, accounts.length, 'Ten accounts expected');
   });
 
   // closes the ganache server.
