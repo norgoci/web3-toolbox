@@ -3,7 +3,18 @@ pragma solidity ^0.4.21;
 
 contract Solution {
 
-    function getSolution() public pure returns (uint) {
-       return 42;
+    address public owner;
+
+    function Solution() public {
+        owner = msg.sender;
     }
+
+    modifier onlyOwnerAllowed() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    function getSolution() public view onlyOwnerAllowed returns (uint) {
+       return 42;
+    } 
 }
