@@ -23,7 +23,7 @@ function solveContract(contractFile) {
 }
 
 
-exports.deploy = function(port, contractFile) {
+exports.deploy = function(port, contractFile, gasPrice) {
   if (!fs.existsSync(contractFile)) {
     throw Error("Can not read the contract file.");
   }
@@ -56,7 +56,7 @@ exports.deploy = function(port, contractFile) {
           let fromJSON = {
             from: account,
             gas: gasAmount,
-            gasPrice: '30000000000000'
+            gasPrice: gasPrice ? gasPrice : '30000000000000'
           };
 
           // // TODO: find a better way to find the estimated gas
