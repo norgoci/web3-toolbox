@@ -115,5 +115,5 @@ exports.deploy = function(port, contractFile, gasPrice) {
 
 exports.closeWeb3 = () => {
   server.close();
-  console.log("Ganache node is stops.");
+  console.log("Ganache node stops.");
 };
