@@ -40,13 +40,26 @@ describe('test deployer', function() {
   });
 
   // invoke a method on the cntract and prove if the result is the expected one.
-  it('invoke contract', async function () {
+  it('invoke contract default sender', async function () {
       this.timeout(10000);
       const abi = deployReport.contract.abi;
       const contractAddress = deployReport.contract.address;
       const contract =  new eth.Contract(abi, contractAddress);
       const solution = await contract.methods.getSolution().call();
+
       assert(solution, 'The contract method can not be invoked');
       assert.equal('42', solution, 'The contract answers with wrong value.');
   });
+
+  it('invoke contract owner as sender', async function () {
+    this.timeout(10000);
+    const abi = deployReport.contract.abi;
+    const contractAddress = deployReport.contract.address;
+    const contract =  new eth.Contract(abi, contractAddress);
+    const sender = deployReport.owner;
+    const solution = await contract.methods.getSolution().call({from: sender});
+
+    assert(solution, 'The contract method can not be invoked');
+    assert.equal('42', solution, 'The contract answers with wrong value.');
+  }); 
 });
