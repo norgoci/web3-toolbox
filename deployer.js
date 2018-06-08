@@ -76,12 +76,12 @@ exports.deploy = function(port, contractFile, gasPrice) {
             eth.getTransactionReceipt(transactionHash).then(function (transactionReceipt) {
               if (!transactionReceipt) {
                 console.error('No transaction receipt for the transation, the contract *WAS NOT* deployed.');
-                reject(Error('No transaction receipt for the transation'));
+                reject(Error('No transaction receipt for the transation.'));
               }
 
               let contractAddress = transactionReceipt.contractAddress;
               if (!contractAddress) {
-                console.error('No contract address found, the contract *WAS NOT* deployed..');
+                console.error('No contract address found, the contract *WAS NOT* deployed.');
                 reject(Error('No contract address found.'));
               }
 
