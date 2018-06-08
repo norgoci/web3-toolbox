@@ -31,7 +31,7 @@ exports.deploy = function(port, contractFile) {
   server.listen(port);
   let web3URL = 'http://localhost:' + port;
   let web3 = new Web3(new Web3.providers.HttpProvider(web3URL));
-  console.log('Listen to : %s', web3URL);
+  console.log('Ganache runs on : %s', web3URL);
   let eth = web3.eth;
 
   return new Promise(function(resolve, reject) {
@@ -52,7 +52,7 @@ exports.deploy = function(port, contractFile) {
             reject(error);
           }
 
-          let account = accounts[0];
+          let account = accounts[0].toLowerCase();
           let fromJSON = {
             from: account,
             gas: gasAmount,
@@ -102,7 +102,7 @@ exports.deploy = function(port, contractFile) {
               let ganacheAccounts = ganacheState.accounts;
               let ganacheAddresses = Object.keys(ganacheAccounts);
               ganacheAddresses.forEach(function(address, index) {
-                let key = ganacheAccounts[address].secretKey.toString("hex");
+                let key = ganacheAccounts[address].secretKey.toString("hex").toLowerCase();
                 result.accountToKey[address] = key;
               });
               resolve(result);
@@ -115,5 +115,5 @@ exports.deploy = function(port, contractFile) {
 
 exports.closeWeb3 = () => {
   server.close();
-  console.log("Web3 connection is closed.");
+  console.log("Ganache node is stops.");
 };
