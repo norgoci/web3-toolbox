@@ -19,13 +19,13 @@ Under normal circumstances you will need truffle suite to compile and to deploy 
 
 Functionality provided that far:
 
-1. `deploy`, it compiles your contract, starts a ganache instance and it deploys the contract of your choice in to the fresh started chain. A successful `deploy` call with deliver an `deploy report` that contains all the needed information (e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.) to contact and interact with the chain. The deploy uses the default ganache port, the 8545. 
+1. `deploy`, it compiles your contract, starts a ganache instance and it deploys the contract of your choice in to the fresh started chain. A successful `deploy` call with deliver an `deploy report` that contains all the needed information (e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.) to contact and interact with the chain. The deploy uses the default ganache port, the 8545.
 The deploy report is described in the next section.
 2. `close` - it stops the blockchain stared with deploy.
 3. `buildABI` - build the contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI)
 for the given contract file.
 
-Consider the (example.js)[./example.js] and test file for more details.
+Consider the (example.js)[https://github.com/norgoci/web3-toolbox/blob/master/test/test.js] and test file for more details.
 
 
 ### The Deployment report
@@ -64,6 +64,6 @@ Here are the properties semantics:
 
 
 
-## Source Code 
+## Source Code
 
 The source code is hosted [here](https://github.com/norgoci/web3-toolbox).
