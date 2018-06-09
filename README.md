@@ -25,7 +25,7 @@ The deploy report is described in the next section.
 3. `buildABI` - build the contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI)
 for the given contract file.
 
-Consider the (example.js)[https://github.com/norgoci/web3-toolbox/blob/master/test/test.js] and test file for more details.
+Consider the (example.js)[https://github.com/norgoci/web3-toolbox/blob/master/example.js] and (unit tests)[https://github.com/norgoci/web3-toolbox/blob/master/test/test.js] for more details.
 
 
 ### The Deployment report
