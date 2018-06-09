@@ -6,7 +6,7 @@ This project is not a replacement for the [truffle suite](http://truffleframewor
 
 ## Motivation
 
-If you want make your [solidity](https://solidity.readthedocs.io/en/v0.4.24/) contract functionality available over [JSON RPC](http://www.jsonrpc.org/specification) to some consumer without to make use of truffle and [ganache](http://truffleframework.com/ganache/) then you may consider the web3-toolbox.
+If you want make your [solidity](https://solidity.readthedocs.io/en/v0.4.24/) contract functionality available over [JSON RPC](http://www.jsonrpc.org/specification) to some consumer without to make use of truffle and [ganache](http://truffleframework.com/ganache/) then you may consider the `web3-toolbox`.
 
 `Web3-toolbox` address cases when you deal with functionality that relays on the blockhain logic (e.g. like a REST facade or a user interface) but you are not directly involved in the blockchain logic development.
 
