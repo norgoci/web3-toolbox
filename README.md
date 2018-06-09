@@ -6,31 +6,29 @@ This project is not a replacement for the [truffle suite](http://truffleframewor
 
 ## Motivation
 
-If you want make your solidity functionality available without to install
-truffle and [ganache](http://truffleframework.com/ganache/) then you may
-consider the web3-toolbox.
+If you want make your [solidity](https://solidity.readthedocs.io/en/v0.4.24/) contract functionality available over [JSON RPC](http://www.jsonrpc.org/specification) to some consumer without to make use of truffle and [ganache](http://truffleframework.com/ganache/) then you may consider the web3-toolbox.
 
-`Web3-toolbox` address cases when you deal with functionality that relays on the blockhain logic (e.g. like a REST facade or a user interface) but you are not directly involved in the blockchain logic(e.g. smart contract) development.
-Each of this functionality (the block chain and the one that relays on it) can/should be hosted in to a separate projects.
-The blockchain project can be tested with truffle and ganache-cli but the other project that relays on the blockchain project (like our REST facade) has no chances for a proper testing.
-The most popular approach for this kind of solution is to mix the both project in to a single compound project, but the compound nature will pay its praise when the  as the project grows.
+`Web3-toolbox` address cases when you deal with functionality that relays on the blockhain logic (e.g. like a REST facade or a user interface) but you are not directly involved in the blockchain logic development.
 
-With `web3-toolbox` you can start your own blockchain that contains only the contract that you need for your tests, you only need the contract file.
+With `web3-toolbox` you can start your own blockchain that contains only the contract and interact with according with your needs.
 
-Here is an example: you have two teams one frontend and a (blockcahin based) backend. With the `web3-toolbox` your backend team can focus on blockchain themes without to interfere in any way with the frontend team. The frontend team can
-use `web3-toolbox` to spawn (test purposed) blockhains with the contract of their choice.
+Here is an example: you need to build a user interface for functionality represented as smart contract.
+Under normal circumstances you will need truffle suite to compile and to deploy and [ganache-cli](https://github.com/trufflesuite/ganache-cli) as test chain. The `web3-toolbox` is able to start a node, compile and deploy your contract allowing you to interact with contract over the JSON-RPC interface.
 
 ## Usage
 
 Functionality provided that far:
 
-1. `deploy`, it compiles your contract, starts a ganache instance and it deploys the contract of your choice in to the fresh started chain. A successful `deploy` call with deliver an `deploy report` that contains all the needed information (e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.) to contact and interact with the chain.
+1. `deploy`, it compiles your contract, starts a ganache instance and it deploys the contract of your choice in to the fresh started chain. A successful `deploy` call with deliver an `deploy report` that contains all the needed information (e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.) to contact and interact with the chain. The deploy uses the default ganache port, the 8545. 
 The deploy report is described in the next section.
 2. `close` - it stops the blockchain stared with deploy.
 3. `buildABI` - build the contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI)
 for the given contract file.
 
-### Deploy report
+Consider the (example.js)[./example.js] and test file for more details.
+
+
+### The Deployment report
 
 The result for an successfully deployment is a deploy report, this is a JSON with the following structure:
 
@@ -64,4 +62,8 @@ Here are the properties semantics:
 7. `abi` - the ABI for the contract.
 8. `accountToKey` - map where the chain account are the keys and the corresponding private key are values.  
 
-Consider the (example.js)[./example.js] and test file for more details.
+
+
+## Source Code 
+
+The source code is hosted [here](https://github.com/norgoci/web3-toolbox).
