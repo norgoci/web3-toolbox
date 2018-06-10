@@ -61,5 +61,33 @@ describe('test deployer', function() {
 
     assert(solution, 'The contract method can not be invoked');
     assert.equal('42', solution, 'The contract answers with wrong value.');
-  }); 
+  });
+
+
+  function createRawTransaction(contractAddress, abi, sender) {
+    const contract = new web3.eth.Contract(abi, contractAddress);
+    const encodedMethod = contract.methods.getSolution().encodeABI();
+    return {
+      data: encodedMethod,
+      from: sender,
+      to: contractAddress,
+      value: 0
+    };
+  }
+
+  it('send transaction with owner as sender', async function () {
+    this.timeout(10000);
+    const abi = deployReport.contract.abi;
+    const contractAddress = deployReport.contract.address;
+    const contract =  new eth.Contract(abi, contractAddress);
+    const sender = deployReport.owner;
+
+    const transaction = createRawTransaction(contractAddress, abi, sender);
+    const gas = await web3.eth.estimateGas(transaction);
+    transaction.gas = gas;
+    transaction.gasPrice = '100000000000';
+
+    const recipit = await web3.eth.sendTransaction(transaction);
+    assert(recipit, 'The transaction recipit can not be undefined.');
+  });
 });
