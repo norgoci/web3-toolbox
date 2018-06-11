@@ -102,7 +102,7 @@ exports.deploy = function(port, contractFile, gasPrice) {
               let ganacheAccounts = ganacheState.accounts;
               let ganacheAddresses = Object.keys(ganacheAccounts);
               ganacheAddresses.forEach(function(address, index) {
-                let key = ganacheAccounts[address].secretKey.toString("hex").toLowerCase();
+                let key = '0x' + ganacheAccounts[address].secretKey.toString("hex").toLowerCase();
                 result.accountToKey[address] = key;
               });
               resolve(result);
