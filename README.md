@@ -2,25 +2,43 @@
 
 ## Purpose
 Provide test support for [ethreum](https://www.ethereum.org/) related projects.
-This project is not a replacement for the [truffle suite](http://truffleframework.com/) it is rather complementary to truffle.
+This project is not a replacement for the [truffle suite](http://truffleframework.com/) it is rather complementary
+to the truffle suite project.
 
 ## Motivation
 
-If you want make your [solidity](https://solidity.readthedocs.io/en/v0.4.24/) contract functionality available over [JSON RPC](http://www.jsonrpc.org/specification) to some consumer without to make use of truffle and [ganache](http://truffleframework.com/ganache/) then you may consider the `web3-toolbox`.
+If you want make your [solidity](https://solidity.readthedocs.io/en/v0.4.24/) contract functionality available over
+[JSON RPC](http://www.jsonrpc.org/specification) to some consumer without to make use of truffle suite and
+[ganache](http://truffleframework.com/ganache/) (or any other chain client) then you may consider the `web3-toolbox`.
 
-`Web3-toolbox` address cases when you deal with functionality that relays on the blockhain logic (e.g. like a REST facade or a user interface) but you are not directly involved in the blockchain logic development.
+`Web3-toolbox` address cases when you deal with functionality that relays on the blockhain logic
+(e.g. like a REST facade or a user interface) but you are not directly involved in the blockchain logic development.
 
-With `web3-toolbox` you can start your own blockchain that contains only the contract and interact with according with your needs.
+With `web3-toolbox` you can start your own in memory private (block) chain that contains only the contract that you need
+and interact with according with it your use-case.
 
 Here is an example: you need to build a user interface for functionality represented as smart contract.
-Under normal circumstances you will need truffle suite to compile and to deploy and [ganache-cli](https://github.com/trufflesuite/ganache-cli) as test chain. The `web3-toolbox` is able to start a node, compile and deploy your contract allowing you to interact with contract over the JSON-RPC interface.
+Under normal circumstances you will need truffle suite to compile and to deploy and
+[ganache-cli](https://github.com/trufflesuite/ganache-cli) as test chain.
+The `web3-toolbox` is able to start a node, compile and deploy your contract allowing you to interact with contract over
+the JSON-RPC interface.
 
 ## Usage
 
 Functionality provided that far:
 
-1. `deploy`, it compiles your contract, starts a ganache instance and it deploys the contract of your choice in to the fresh started chain. A successful `deploy` call with deliver an `deploy report` that contains all the needed information (e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.) to contact and interact with the chain. The deploy uses the default ganache port, the 8545.
-The deploy report is described in the next section.
+1. `deploy`, starts and deploys your contract.
+More precisely the `deploy` compiles your contract, starts a ganache instance
+and it deploys the contract in to the fresh started chain.
+A successful `deploy` call delivers an `deploy report` that contains all the needed information
+(e.g. [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI), accounts, contract owner, etc.)
+to contact and interact with the contract.
+The `deploy report` is described in the next section.
+The method takes three arguments:
+    1. `port`, represents the port where the chain client will accept (JSON RPC) requests,
+   if its not provided then the the `8545` will be used.
+    2. `contractFile` - the solidity file to be deploy.
+    3. `gasPrice` - the gas price used by deployment.
 2. `close` - it stops the blockchain stared with deploy.
 3. `buildABI` - build the contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI)
 for the given contract file.
