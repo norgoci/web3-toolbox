@@ -1,10 +1,12 @@
 const deployer = require('./deployer');
 
-exports.deploy = function(contractFile, gasPrice) {
+exports.deploy = function(contractFile, gasPrice, port = 8545) {
   if (!contractFile) {
     throw 'The contract file must be provided';
   }
-  return deployer.deploy(8545, contractFile, gasPrice);
+
+
+  return deployer.deploy(port, contractFile, gasPrice);
 }
 
 exports.buildABI = function(contractFile) {
