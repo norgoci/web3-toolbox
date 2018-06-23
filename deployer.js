@@ -56,7 +56,7 @@ exports.deploy = function(port, contractFile, gasPrice) {
           let fromJSON = {
             from: account,
             gas: gasAmount,
-            gasPrice: gasPrice ? gasPrice : '30000000000000'
+            gasPrice: gasPrice
           };
 
           // // TODO: find a better way to find the estimated gas
