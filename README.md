@@ -108,7 +108,7 @@ deployer.start().then(function (web3) {
 
 You can run the example1 script with the `node example1` command.
 
-#### Alternative
+#### Alternative, short flow
 
 As alternative to the `start - deploy - close` flow,
 the version 2.xx provides also a `start and deploy - close` flow. 
