@@ -17,7 +17,7 @@ describe('test deployer', function() {
   // or its abi.
   before(async function() {
     this.timeout(10000);
-    deployReport = await deployer.deploy('contract.sol');
+    deployReport = await deployer.runAndDeploy('contract.sol');
     assert(deployReport, 'The contract deploy report is undefined.');
     assert(deployReport.owner, 'The contract ownwer is undefined.');
     assert(deployReport.transactionHash, 'The contract deploy transaction hash is undefined.');
