@@ -30,7 +30,7 @@ Until now the web3-toolbox has two releases (1.xx and 2.xx).
 
 ### web3-toolbox version 1.xx
 
-Functionality provided that far:
+This version provides the following functionality:
 
 1. `deploy`, starts and deploys your contract.
 More precisely the `deploy` compiles your contract, starts a ganache instance
