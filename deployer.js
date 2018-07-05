@@ -4,11 +4,24 @@ const fs = require('fs');
 const solc = require('solc');
 const Web3 = require('web3');
 
+/**
+ * Builds the ABI for the given solidity contract file.
+ *
+ * @param contractFile the contract file for the ABI.
+ * @return {any} the ABI for the given solidity contract file.
+ */
 exports.buildABI = function(contractFile) {
   let contractMeta = solveContract(contractFile);
   return contractMeta.abi;
 };
 
+/**
+ * Compile the given file and return an object that encapsulates
+ * the ABI and the copiled contract bytecode.
+ *
+ * @param contractFile the contract file to be considered.
+ * @return {{abi: any, bytecode: (contractOutput.evm.bytecode|{object, opcodes, sourceMap, linkReferences})}}
+ */
 function solveContract(contractFile) {
   if (!fs.existsSync(contractFile)) {
     throw Error("Can not read the contract file.");
@@ -22,20 +35,51 @@ function solveContract(contractFile) {
   return {abi: abi, bytecode: bytecode};
 }
 
+var port;
+exports.startWeb3 = function(host, port) {
 
-exports.deploy = function(port, contractFile, gasPrice) {
+  return new Promise(function(resolve, reject) {
+    if (!port) {
+      reject(Error('No port information is available.'));
+    }
+
+    if (port === this.port) {
+      reject(Error('The port is already allocated.'));
+    }
+    this.port = port;
+    server.listen(port);
+
+    let web3URL = 'http://' + host + ':' + port;
+    let web3 = new Web3(new Web3.providers.HttpProvider(web3URL));
+    console.log('Ganache runs on : %s', web3URL);
+    resolve(web3);
+  });
+}
+
+exports.deployContract = function(web3, contractFile, contractArguments, gasPrice) {
+
+  if (!web3) {
+    throw Error("The web3 client can not be undefined.");
+  }
+
+  if (!contractFile) {
+    throw Error("Can the contract file can not be undefined.");
+  }
+
   if (!fs.existsSync(contractFile)) {
     throw Error("Can not read the contract file.");
   }
 
-  server.listen(port);
-  let web3URL = 'http://localhost:' + port;
-  let web3 = new Web3(new Web3.providers.HttpProvider(web3URL));
-  console.log('Ganache runs on : %s', web3URL);
+  if (!gasPrice) {
+    throw Error("The gas price can not be undefined.");
+  }
+
+  contractArguments = contractArguments ? contractArguments : [];
+
   let eth = web3.eth;
 
   return new Promise(function(resolve, reject) {
-      let accounts = eth.getAccounts().then(function(accounts) {
+    eth.getAccounts().then(function(accounts) {
       if (!accounts || accounts.length < 1) {
         console.error('No accounts are available, the contract %s *WAS NOT* deployed.', contractFile);
         reject(Error('No accounts are available.'));
@@ -45,7 +89,10 @@ exports.deploy = function(port, contractFile, gasPrice) {
       let bytecode = contractMeta.bytecode;
       let abi = contractMeta.abi;
 
-      new eth.Contract(abi).deploy({data: bytecode})
+      new eth.Contract(abi).deploy({
+        data: bytecode,
+        arguments: contractArguments
+      })
         .estimateGas((error, gasAmount) => {
           if (error) {
             console.error(error);
@@ -61,7 +108,8 @@ exports.deploy = function(port, contractFile, gasPrice) {
 
           // // TODO: find a better way to find the estimated gas
           new eth.Contract(abi).deploy({
-            data: bytecode
+            data: bytecode,
+            arguments: contractArguments
           }).send(fromJSON, function(error, transactionHash) {
             if (error) {
               console.error(error);
@@ -108,7 +156,7 @@ exports.deploy = function(port, contractFile, gasPrice) {
               resolve(result);
             });
           });
-      });
+        });
     });
   });
 };

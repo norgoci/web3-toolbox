@@ -25,7 +25,12 @@ the JSON-RPC interface.
 
 ## Usage
 
-Functionality provided that far:
+Until now the web3-toolbox has two releases (1.xx and 2.xx).
+
+
+### web3-toolbox version 1.xx
+
+This version provides the following functionality:
 
 1. `deploy`, starts and deploys your contract.
 More precisely the `deploy` compiles your contract, starts a ganache instance
@@ -43,9 +48,92 @@ The method takes three arguments:
 3. `buildABI` - build the contract [ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI)
 for the given contract file.
 
-Consider the [example.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js) and [unit tests](https://github.com/norgoci/web3-toolbox/blob/master/test/test.js) for more details.
+The next code snippet shows how to use it. 
+
+```javascript
+const deployer = require('web3-toolbox');
+const contractFile = 'contract.sol';
+const abi = deployer.buildABI(contractFile);
+console.log(abi);
+deployer.deploy('contract.sol').then((deployReport) => {
+  console.log('The contract %s is own by the user %s, the contract deploy transaction %s costs %s gas.',
+  deployReport.contract.file, deployReport.owner, deployReport.transactionHash, deployReport.gas);
+  console.log('The contract address is %s', deployReport.contract.address);
+});
+deployer.close();
+```
 
 
+#### Limitation
+
+With the web3-toolbox version 1.xx you are able to deploy a single contract
+and the contract constructor must have no arguments. 
+If you want to deploy more contracts and/or you deal with contract
+constructor that accepts arguments then you need to consider the version 2.xx.  
+
+### web3-toolbox version 2.xx
+
+This version introduces the following flow:
+
+1. start
+2. deploy contracts, this step can be call several times. 
+Each deploy has as result a `deployment report` below described. 
+3. close
+
+In the [example1.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js) the server is started with the statement
+
+```javascript
+deployer.start().then(function (web3) {
+  ...
+} 
+```
+
+After the server starts the underlying web3 instance is returned,
+the web3 instance is used to deploy the contract `contract.sol` as in the next code snippet.  
+```javascript
+deployer.start().then(function (web3) {
+  console.log('Start web3.')
+  return deployer.deploy(web3, 'contract.sol');
+}).then(function (deployReport) {
+  ....
+}
+```
+The `deployer.deploy()` method can be used more times if you have more contracts,
+in this example for simplicity we deal with only one contract.
+
+A successful deploy end with a deploy report (below described). 
+The next code snippet prints the report to the system out and after this 
+it closes the server (with the `deployer.close()` method). Under normal circumstances you use the deploy report 
+to interact with the contract.
+
+```javascript
+deployer.start().then(function (web3) {
+  console.log('Start web3.')
+  return deployer.deploy(web3, 'contract.sol');
+}).then(function (deployReport) {
+  console.log('The contract %s is own by the user %s, the contract deploy transaction %s costs %s gas.',
+    deployReport.contract.file, deployReport.owner, deployReport.transactionHash, deployReport.gas);
+  console.log('The contract address is %s', deployReport.contract.address);
+  const report = JSON.stringify(deployReport, null, 4);
+  console.log(report);
+}).then(function () {
+  deployer.close();
+});
+```
+
+You can run the example1 script with the `node example1` command.
+
+#### Alternative, short flow
+
+As alternative to the `start - deploy - close` flow,
+the version 2.xx provides also a `start and deploy - close` flow. 
+This can be used if you have __only one__ contract.
+
+Consider the [example2.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js)
+as example for this kind of flow.
+
+You can run the example1 script with the `node example2` command.
+   
 ### The Deployment report
 
 The result for an successfully deployment is a deploy report, this is a JSON with the following structure:
@@ -85,3 +173,9 @@ Here are the properties semantics:
 ## Source Code
 
 The source code is hosted [here](https://github.com/norgoci/web3-toolbox).
+
+If you find a bug or you need a new feature don't be shy and create a new issue git lab issue for it.
+
+## Release log
+
+For more information about the version and features consider the [CHANGE-LOG.md](https://github.com/norgoci/web3-toolbox/blob/master/CHANGE-LOG.md)
