@@ -80,7 +80,7 @@ This version introduces the following flow:
 Each deploy has as result a `deployment report` below described. 
 3. close
 
-In the [example1.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js) the server is started with the statement
+In the [example1.js](https://github.com/norgoci/web3-toolbox/blob/master/example1.js) the server is started with the statement
 
 ```javascript
 deployer.start().then(function (web3) {
@@ -129,7 +129,7 @@ As alternative to the `start - deploy - close` flow,
 the version 2.xx provides also a `start and deploy - close` flow. 
 This can be used if you have __only one__ contract.
 
-Consider the [example2.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js)
+Consider the [example2.js](https://github.com/norgoci/web3-toolbox/blob/master/example2.js)
 as example for this kind of flow.
 
 You can run the example1 script with the `node example2` command.
