@@ -122,7 +122,9 @@ deployer.start().then(function (web3) {
 ```
 
 You can run the example1 script with the `node example1` command.
-For more details consult the [api-docs](https://github.com/norgoci/web3-toolbox/api-docs/index.html).
+For more details consult the api-docs.
+The api is can be gnerated with command `jsdoc index.js -d api-docs` or the `get-apidocs.bash` script.
+This requires [jsdocs](https://www.npmjs.com/package/jsdoc).
 
 #### Alternative, short flow
 
@@ -205,7 +207,8 @@ If you find a bug or you need a new feature don't be shy and create a new issue 
 
 ## API Documentation
 
-The api is hosted [here](https://github.com/norgoci/web3-toolbox/api-docs/index.html)
+The api is can be gnerated with command `jsdoc index.js -d api-docs` or the `get-apidocs.bash` script.
+This requires [jsdocs](https://www.npmjs.com/package/jsdoc).
 
 
 ## Release log
