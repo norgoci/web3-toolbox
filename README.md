@@ -122,6 +122,7 @@ deployer.start().then(function (web3) {
 ```
 
 You can run the example1 script with the `node example1` command.
+For more details consult the [api-docs](https://github.com/norgoci/web3-toolbox/api-docs/index.html).
 
 #### Alternative, short flow
 
@@ -196,13 +197,16 @@ Here is an example:
   const solution = await deployer.callMethod(web3, abi, 'getSolution', [], sender, contractAddress);
 ```
       
-
-
 ## Source Code
 
 The source code is hosted [here](https://github.com/norgoci/web3-toolbox).
 
 If you find a bug or you need a new feature don't be shy and create a new issue git lab issue for it.
+
+## API Documentation
+
+The api is hosted [here](https://github.com/norgoci/web3-toolbox/api-docs/index.html)
+
 
 ## Release log
 
