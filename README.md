@@ -80,7 +80,7 @@ This version introduces the following flow:
 Each deploy has as result a `deployment report` below described. 
 3. close
 
-In the [example1.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js) the server is started with the statement
+In the [example1.js](https://github.com/norgoci/web3-toolbox/blob/master/example1.js) the server is started with the statement
 
 ```javascript
 deployer.start().then(function (web3) {
@@ -129,7 +129,7 @@ As alternative to the `start - deploy - close` flow,
 the version 2.xx provides also a `start and deploy - close` flow. 
 This can be used if you have __only one__ contract.
 
-Consider the [example2.js](https://github.com/norgoci/web3-toolbox/blob/master/example.js)
+Consider the [example2.js](https://github.com/norgoci/web3-toolbox/blob/master/example2.js)
 as example for this kind of flow.
 
 You can run the example1 script with the `node example2` command.
@@ -168,6 +168,34 @@ Here are the properties semantics:
 7. `abi` - the ABI for the contract.
 8. `accountToKey` - map where the chain account are the keys and the corresponding private key are values.  
 
+### Advanced Testing
+
+With the version 2.0.2 the `ẁeb3-toolbox` provides you a set of helper methods destined reduce
+the amount of boiler plate code for your tests. Here are the methods and their semantic:
+1. getAllAccounts - returns a String array with all the accounts encapsulated in a deploy report.
+2. accountExist - proves if  certain account exists in a deploy report.
+3. getKey - get the private key for a given account from a given deploy report.
+4. getKeyForOwner - get the private key for the contract owner from a given deploy report.
+5. callMethod - calls a method on the contract.
+
+The methods `getAllAccounts, accountExist, getKey, getKeyForOwner` are meant to make the deploy contract manipulation more easy.
+Here is an example:
+
+```javascript
+  let allAccounts = deployer.getAllAccounts(deployReport);
+  assert.equal(10, allAccounts.length, 'Ten accounts expected');
+```
+
+The `callMethod` method allows you to prepare the contract (by calling certain methods) before the a test occur.  
+Here is an example:
+```javascript
+  const abi = deployReport.contract.abi;
+  const contractAddress = deployReport.contract.address;
+  const sender = deployReport.owner;
+  // calls the method getSolution with no arguments, the method caller is the owner
+  const solution = await deployer.callMethod(web3, abi, 'getSolution', [], sender, contractAddress);
+```
+      
 
 
 ## Source Code
