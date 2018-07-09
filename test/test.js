@@ -29,9 +29,8 @@ describe('test deployer', function() {
     assert(deployReport.contract.address, 'The contract file is undefined.');
     assert(deployReport.accountToKey, 'The accounts to key mapping can is undefined.');
 
-    let accountToKey = deployReport.accountToKey;
-    let accounts = Object.keys(accountToKey);
-    assert.equal(10, accounts.length, 'Ten accounts expected');
+    let allAccounts = deployer.getAllAccounts(deployReport);
+    assert.equal(10, allAccounts.length, 'Ten accounts expected');
   });
 
   // closes the ganache server.
@@ -63,31 +62,15 @@ describe('test deployer', function() {
     assert.equal('42', solution, 'The contract answers with wrong value.');
   });
 
-
-  function createRawTransaction(contractAddress, abi, sender) {
-    const contract = new web3.eth.Contract(abi, contractAddress);
-    const encodedMethod = contract.methods.getSolution().encodeABI();
-    return {
-      data: encodedMethod,
-      from: sender,
-      to: contractAddress,
-      value: 0
-    };
-  }
-
   it('send transaction with owner as sender', async function () {
     this.timeout(10000);
     const abi = deployReport.contract.abi;
     const contractAddress = deployReport.contract.address;
-    const contract =  new eth.Contract(abi, contractAddress);
     const sender = deployReport.owner;
-
-    const transaction = createRawTransaction(contractAddress, abi, sender);
-    const gas = await web3.eth.estimateGas(transaction);
-    transaction.gas = gas;
-    transaction.gasPrice = '100000000000';
-
-    const recipit = await web3.eth.sendTransaction(transaction);
-    assert(recipit, 'The transaction recipit can not be undefined.');
+    // calls the method getSolution with no arguments, the method caller is the owner
+    const solution = await deployer.callMethod(web3, abi, 'getSolution', [], sender, contractAddress);
+    assert(solution, 'The method result can not be undefined.');
+    // 0x....2a == 42, trust me :)
+    assert.equal('0x000000000000000000000000000000000000000000000000000000000000002a', solution, 'The contract answers with wrong value.');
   });
 });

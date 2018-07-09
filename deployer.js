@@ -165,3 +165,86 @@ exports.closeWeb3 = () => {
   server.close();
   console.log("Ganache node stops.");
 };
+
+/**
+ * Returns an array with all the test accounts encapsulated in the given deploy report.
+ *
+ * @param deployReport the involved deploy report.
+ * @returns {string[]} all the accounts from the given deploy report.
+ */
+exports.getAllAccounts = function(deployReport) {
+  return Object.keys(deployReport.accountToKey);
+}
+
+/**
+ * Proves if a given account exists or not in in the given deploy report.
+ *
+ * @param deployReport the involved deploy report.
+ * @param account {string} the account presence to be proven.
+ * @returns {boolean} true if the given account exists in the deploy report.
+ */
+exports.accountExist = function(deployReport, account) {
+  // use _ for contains prove
+  return Object.keys(deployReport.accountToKey).indexOf(account) != -1;
+}
+
+/**
+ * Returns the private key for the given account.
+ * If the account is not preset in the given deploy report then this method retuns undefined.
+ *
+ * @param deployReport the involved deploy report.
+ * @param account {string} the account to be serached.
+ * @returns {string} the private key associated to the given account or undefined
+ * if the deploy report does not contains the given account.
+ */
+exports.getKey = function(deployReport, account) {
+  return deployReport.accountToKey[account];
+}
+
+/**
+ * Returns the private key associated to the owner.
+ *
+ * @param deployReport the involved deploy report.
+ * @returns {string} the private key associated to the owner account.
+ */
+exports.getKeyForOwner = function(deployReport) {
+  return getKey(deployReport, deployReport.owner);
+}
+
+/**
+ * Encodes a method call for a given contract.
+ *
+ * @param web3 the involved web3 instance.
+ * @param abi the contract ABI.
+ * @param methodName the method name to be call.
+ * @param args the arguments for the method, empty array for no arguments.
+ * @returns {string} the encoded method call.
+ */
+function encodeFunctionCall(web3, abi, methodName, args) {
+  const methodAbi = web3.utils._.find(abi, function (item) { return item.name === methodName;});
+  return web3.eth.abi.encodeFunctionCall(methodAbi, args);
+}
+
+/**
+ * Calls a method on the given contract and returns its results.
+ *
+ * @param web3 the involved web3 instance.
+ * @param abi the contract ABI.
+ * @param methodName the method name to be call.
+ * @param args the arguments for the method, empty array for no arguments.
+ * @param sender actor that call the method.
+ * @param contractAddress the contract address.
+ * @returns {Promise<string>} the method result as promise.
+ */
+exports.callMethod = async function(web3, abi, methodName, args, sender, contractAddress) {
+  const transaction = {
+    data: encodeFunctionCall(web3, abi, methodName, args),
+    from: sender,
+    gasPrice: '200000000000',
+    to: contractAddress,
+    value: 0
+  };
+  const gas = await web3.eth.estimateGas(transaction);
+  transaction.gas = gas;
+  return web3.eth.call(transaction);
+}

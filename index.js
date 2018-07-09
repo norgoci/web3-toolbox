@@ -97,3 +97,116 @@ exports.deploy = function (web3,
 exports.close = function () {
   deployer.closeWeb3();
 }
+
+/**
+ * Returns an array with all the test accounts encapsulated in the given deploy report.
+ *
+ * @param deployReport the involved deploy report.
+ * @returns {string[]} all the accounts from the given deploy report.
+ */
+exports.getAllAccounts = function(deployReport) {
+  if (!deployReport) {
+    throw Error("The deploy report argument can not be undefined.");
+  }
+
+  return deployer.getAllAccounts(deployReport);
+}
+
+/**
+ * Proves if a given account exists or not in in the given deploy report.
+ *
+ * @param deployReport the involved deploy report.
+ * @param account {string} the account presence to be proven.
+ * @returns {boolean} true if the given account exists in the deploy report.
+ */
+exports.accountExist = function(deployReport, account) {
+  if (!deployReport) {
+    throw Error("The deploy report argument can not be undefined.");
+  }
+
+  if (!account) {
+    throw Error("The account can not be undefined.");
+  }
+
+  return deployer.accountExist(deployReport, account);
+}
+
+/**
+ * Returns the private key for the given account.
+ * If the account is not preset in the given deploy report then this method retuns undefined.
+ *
+ * @param deployReport the involved deploy report, it can not be undefined.
+ * @param account {string} the account to be searched, it can not be undefined.
+ * @returns {string} the private key associated to the given account or undefined
+ * if the deploy report does not contains the given account.
+ */
+exports.getKey = function(deployReport, account) {
+  if (!deployReport) {
+    throw Error("The deploy report argument can not be undefined.");
+  }
+
+  if (!account) {
+    throw Error("The account can not be undefined.");
+  }
+
+  if (!accountExist(account)) {
+    throw Error("The account is not available in the deploy report.");
+  }
+
+  return deployer.getKey(deployReport, account);
+}
+
+
+/**
+ * Returns the private key associated to the owner.
+ *
+ * @param deployReport the involved deploy report, it can not be undefined.
+ * @returns {string} the private key associated to the owner account.
+ */
+exports.getKeyForOwner = function(deployReport) {
+  if (!deployReport) {
+    throw Error("The deploy report argument can not be undefined.");
+  }
+
+  return deployer.getKeyForOwner(deployReport);
+}
+
+/**
+ * Calls a method on the given contract and returns its results.
+ *
+ * @param web3 the involved web3 instance.
+ * @param abi the contract ABI.
+ * @param methodName {string} the method name to be call.
+ * @param args {[string]} the arguments for the method, empty array for no arguments.
+ * @param sender {string} actor that call the method.
+ * @param contractAddress {string} the contract address.
+ * @returns {Promise<string>} the method result as promise.
+ */
+exports.callMethod = function(web3, abi, methodName, args, sender, contractAddress) {
+
+  if (!web3) {
+    throw Error("The web3 argument can not be undefined.");
+  }
+
+  if (!abi) {
+    throw Error("The abi argument can not be undefined.");
+  }
+
+  if (!methodName) {
+    throw Error("The methodName argument can not be undefined.");
+  }
+
+  if (!args) {
+    throw Error("The args argument can not be undefined.");
+  }
+
+  if (!sender) {
+    throw Error("The sender argument can not be undefined.");
+  }
+
+  if (!contractAddress) {
+    throw Error("The contractAddress argument can not be undefined.");
+  }
+
+  return deployer.callMethod(web3, abi, methodName, args, sender, contractAddress)
+}
