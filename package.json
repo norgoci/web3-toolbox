@@ -1,10 +1,10 @@
 {
   "name": "web3-toolbox",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A set of common purposed NodeJs Web3 scripts",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/norgoci/web3-toolbox"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/norgoci/web3-toolbox"
   },
   "homepage": "https://github.com/norgoci/web3-toolbox/blob/master/README.md",
   "bugs": {
