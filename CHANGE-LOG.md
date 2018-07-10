@@ -8,3 +8,5 @@
   3. getKey
   4. getKeyForOwner
   5. callMethod. 
+* 2.0.3 - Improved package.json, no functional changes.
+  
