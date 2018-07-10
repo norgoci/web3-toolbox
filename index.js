@@ -177,7 +177,7 @@ exports.getKeyForOwner = function(deployReport) {
  * @param web3 the involved web3 instance.
  * @param abi the contract ABI.
  * @param methodName {string} the method name to be call.
- * @param args {[string]} the arguments for the method, empty array for no arguments.
+ * @param args {string[]} the arguments for the method, empty array for no arguments.
  * @param sender {string} actor that call the method.
  * @param contractAddress {string} the contract address.
  * @returns {Promise<string>} the method result as promise.

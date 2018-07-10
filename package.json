@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/norgoci/web3-toolbox/blob/master/README.md",
   "bugs": {
-    "url": "https://github.com/norgoci/web3-toolbox/issues",
+    "url": "https://github.com/norgoci/web3-toolbox/issues"
   },
   "main": "index.js",
   "scripts": {
