@@ -37,12 +37,13 @@ exports.runAndDeploy = function (contractFile,
                                  contractArguments = [],
                                  gasPrice = '30000000000000',
                                  host = 'localhost',
-                                 port = 8545) {
+                                 port = 8545,
+                                 protocol = 'http') {
   if (!contractFile) {
     throw 'The contract file must be provided';
   }
 
-  return deployer.startWeb3(host, port).then(function (web3) {
+  return deployer.startWeb3(host, port, protocol).then(function (web3) {
     return deployer.deployContract(web3, contractFile, contractArguments, gasPrice);
   });
 }
@@ -56,8 +57,8 @@ exports.runAndDeploy = function (contractFile,
  * @param port the host where the ganache instace will be started, if not specified then the 8545 value is used.
  * @returns {Promise<T | never>} a the underlying web3 for the started ganache instance.
  */
-exports.start = function (host = 'localhost', port = 8545) {
-  return deployer.startWeb3(host, port);
+exports.start = function (host = 'localhost', port = 8545, protocol = 'http') {
+  return deployer.startWeb3(host, port, protocol);
 }
 
 /**
