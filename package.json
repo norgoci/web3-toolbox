@@ -2,9 +2,9 @@
   "name": "web3-toolbox",
   "version": "2.0.3",
   "description": "A set of common purposed NodeJs Web3 scripts",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/norgoci/web3-toolbox"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/norgoci/web3-toolbox"
   },
   "homepage": "https://github.com/norgoci/web3-toolbox/blob/master/README.md",
   "bugs": {
@@ -25,9 +25,9 @@
   "author": "Norgoci Nici Nici",
   "license": "Apache-2.0",
   "dependencies": {
-    "ganache-cli": "^6.1.0",
+    "ganache-cli": "6.1.0-beta.4",
     "solc": "^0.4.24",
-    "web3": "^1.0.0-beta.34"
+    "web3": "1.0.0-beta.34"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
