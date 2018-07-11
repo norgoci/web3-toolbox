@@ -36,6 +36,7 @@ function solveContract(contractFile) {
 }
 
 var port;
+
 exports.startWeb3 = function(host, port, protocol = 'http') {
 
   return new Promise(function(resolve, reject) {
@@ -57,10 +58,6 @@ exports.startWeb3 = function(host, port, protocol = 'http') {
     } else if (protocol === 'ws') {
       web3 = new Web3(new Web3.providers.WebsocketProvider(web3URL));
     }
-    // @todo reject???
-    // } else {
-    //   reject(Error('Unrecognised protocol: ' protocol));
-    // }
 
     console.log('Ganache runs on : %s', web3URL);
     resolve(web3);
