@@ -37,7 +37,7 @@ function solveContract(contractFile) {
 
 var port;
 
-exports.startWeb3 = function(host, port, protocol = 'http') {
+exports.startWeb3 = function(host, port, protocol) {
 
   return new Promise(function(resolve, reject) {
     if (!port) {
