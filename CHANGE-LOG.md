@@ -9,5 +9,6 @@
   4. getKeyForOwner
   5. callMethod. 
 * 2.0.4 - Improved documentation (jsdoc), no functional changes. 
-* 2.0.5 - Improved package.json, no functional changes.
+* 2.0.5 - Restriction in version number for ganache-cli and web3 and now it is possible to specify the protocol 
+host for the web3 client  
   
