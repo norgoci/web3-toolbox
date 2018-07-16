@@ -150,7 +150,7 @@ exports.getKey = function(deployReport, account) {
     throw Error("The account can not be undefined.");
   }
 
-  if (!accountExist(account)) {
+  if (!deployer.accountExist(deployReport, account)) {
     throw Error("The account is not available in the deploy report.");
   }
 
@@ -169,7 +169,7 @@ exports.getKeyForOwner = function(deployReport) {
     throw Error("The deploy report argument can not be undefined.");
   }
 
-  return deployer.getKeyForOwner(deployReport);
+  return deployer.getKey(deployReport, deployReport.owner);
 }
 
 /**

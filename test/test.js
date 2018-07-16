@@ -73,4 +73,19 @@ describe('test deployer', function() {
     // 0x....2a == 42, trust me :)
     assert.equal('0x000000000000000000000000000000000000000000000000000000000000002a', solution, 'The contract answers with wrong value.');
   });
+
+  it('test account exist', async function () {
+    const owner = deployReport.owner;
+    var accountExist = deployer.accountExist(deployReport, owner);
+    assert(accountExist, 'The owner account can not be undefined.');
+  });
+
+  it('test get key', async function () {
+    const owner = deployReport.owner;
+    const ownerKey = deployer.getKey(deployReport, owner);
+    assert(ownerKey, 'The owner private key can not be undefined.');
+    var keyForOwner = deployer.getKeyForOwner(deployReport);
+    assert(ownerKey, 'The owner private key can not be undefined.');
+
+  });
 });
