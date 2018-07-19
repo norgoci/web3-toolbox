@@ -1,6 +1,6 @@
 {
   "name": "web3-toolbox",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "A set of common purposed NodeJs Web3 scripts",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "url": "https://github.com/norgoci/web3-toolbox/issues"
   },
   "main": "index.js",
-  "typings":"./typings/index.d.ts",
+  "typings": "./typings/index.d.ts",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
   },
