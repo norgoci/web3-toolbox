@@ -12,4 +12,5 @@
 * 2.0.5 - Restriction in version number for ganache-cli and web3 and now it is possible to specify the protocol 
 host for the web3 client  
 * 2.0.6 - bug fix for getKey and getOwnerKey.
+* 3.0.0 - add typescript types
   
