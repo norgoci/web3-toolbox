@@ -85,7 +85,6 @@ describe('test deployer', function() {
     const ownerKey = deployer.getKey(deployReport, owner);
     assert(ownerKey, 'The owner private key can not be undefined.');
     var keyForOwner = deployer.getKeyForOwner(deployReport);
-    assert(ownerKey, 'The owner private key can not be undefined.');
-
+    assert(keyForOwner, 'The owner private key can not be undefined.');
   });
 });
