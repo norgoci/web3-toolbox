@@ -1,6 +1,6 @@
 {
   "name": "web3-toolbox",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A set of common purposed NodeJs Web3 scripts",
   "repository": {
     "type": "git",
