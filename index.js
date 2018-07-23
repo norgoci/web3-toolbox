@@ -211,3 +211,34 @@ exports.callMethod = function(web3, abi, methodName, args, sender, contractAddre
 
   return deployer.callMethod(web3, abi, methodName, args, sender, contractAddress)
 }
+
+/**
+ * Returns the contract for a given deployment report.
+ *
+ * @param web3 the involved web3 instance.
+ * @param deployReport {string} the deployment report to be considered.
+ * @return {Contract} the contract for the given deployReport.
+ */
+exports.getContract = function getContract(web3, deployReport) {
+    if (!web3) {
+      throw Error("The web3 argument can not be undefined.");
+    }
+
+    if (!deployReport) {
+        throw Error('The deploy report can not be undefined.');
+    }
+
+    if (!deployReport.contract) {
+        throw Error('The deploy report contract can not be undefined.');
+    }
+
+    if (!deployReport.contract.abi) {
+        throw Error('The deploy report contract abi can not be undefined.');
+    }
+
+    if (!deployReport.contract.abi) {
+        throw Error('The deploy report contract address can not be undefined.');
+    }
+
+    return deployer.getContract(web3, deployReport);
+};

@@ -11,7 +11,7 @@ const Web3 = require('web3');
  * @return {any} the ABI for the given solidity contract file.
  */
 exports.buildABI = function(contractFile) {
-  let contractMeta = solveContract(contractFile);
+  const contractMeta = solveContract(contractFile);
   return contractMeta.abi;
 };
 
@@ -27,11 +27,11 @@ function solveContract(contractFile) {
     throw Error("Can not read the contract file.");
   }
 
-  let input = fs.readFileSync(contractFile);
-  let output = solc.compile(input.toString(), 1);
-  let contractKey = Object.keys(output.contracts)[0];
-  let bytecode = output.contracts[contractKey].bytecode;
-  let abi = JSON.parse(output.contracts[contractKey].interface);
+  const input = fs.readFileSync(contractFile);
+  const output = solc.compile(input.toString(), 1);
+  const contractKey = Object.keys(output.contracts)[0];
+  const bytecode = output.contracts[contractKey].bytecode;
+  const abi = JSON.parse(output.contracts[contractKey].interface);
   return {abi: abi, bytecode: bytecode};
 }
 
@@ -50,7 +50,7 @@ exports.startWeb3 = function(host, port, protocol) {
     this.port = port;
     server.listen(port);
 
-    let web3URL = protocol + '://' + host + ':' + port;
+    const web3URL = protocol + '://' + host + ':' + port;
     let web3;
 
     if (protocol === 'http') {
@@ -62,7 +62,7 @@ exports.startWeb3 = function(host, port, protocol) {
     console.log('Ganache runs on : %s', web3URL);
     resolve(web3);
   });
-}
+};
 
 exports.deployContract = function(web3, contractFile, contractArguments, gasPrice) {
 
@@ -84,7 +84,7 @@ exports.deployContract = function(web3, contractFile, contractArguments, gasPric
 
   contractArguments = contractArguments ? contractArguments : [];
 
-  let eth = web3.eth;
+  const eth = web3.eth;
 
   return new Promise(function(resolve, reject) {
     eth.getAccounts().then(function(accounts) {
@@ -93,9 +93,9 @@ exports.deployContract = function(web3, contractFile, contractArguments, gasPric
         reject(Error('No accounts are available.'));
       }
 
-      let contractMeta = solveContract(contractFile);
-      let bytecode = contractMeta.bytecode;
-      let abi = contractMeta.abi;
+      const contractMeta = solveContract(contractFile);
+      const bytecode = contractMeta.bytecode;
+      const abi = contractMeta.abi;
 
       new eth.Contract(abi).deploy({
         data: bytecode,
@@ -107,8 +107,8 @@ exports.deployContract = function(web3, contractFile, contractArguments, gasPric
             reject(error);
           }
 
-          let account = accounts[0].toLowerCase();
-          let fromJSON = {
+          const account = accounts[0].toLowerCase();
+          const fromJSON = {
             from: account,
             gas: gasAmount,
             gasPrice: gasPrice
@@ -135,13 +135,13 @@ exports.deployContract = function(web3, contractFile, contractArguments, gasPric
                 reject(Error('No transaction receipt for the transation.'));
               }
 
-              let contractAddress = transactionReceipt.contractAddress;
+              const contractAddress = transactionReceipt.contractAddress;
               if (!contractAddress) {
                 console.error('No contract address found, the contract *WAS NOT* deployed.');
                 reject(Error('No contract address found.'));
               }
 
-              let result = {
+              const result = {
                 owner:account,
                 transactionHash: transactionHash,
                 gas: gasAmount,
@@ -154,11 +154,11 @@ exports.deployContract = function(web3, contractFile, contractArguments, gasPric
                 accountToKey: {}
               };
 
-              let ganacheState = server.provider.manager.state;
-              let ganacheAccounts = ganacheState.accounts;
-              let ganacheAddresses = Object.keys(ganacheAccounts);
+              const ganacheState = server.provider.manager.state;
+              const ganacheAccounts = ganacheState.accounts;
+              const ganacheAddresses = Object.keys(ganacheAccounts);
               ganacheAddresses.forEach(function(address, index) {
-                let key = '0x' + ganacheAccounts[address].secretKey.toString("hex").toLowerCase();
+                const key = '0x' + ganacheAccounts[address].secretKey.toString("hex").toLowerCase();
                 result.accountToKey[address] = key;
               });
               resolve(result);
@@ -182,7 +182,7 @@ exports.closeWeb3 = () => {
  */
 exports.getAllAccounts = function(deployReport) {
   return Object.keys(deployReport.accountToKey);
-}
+};
 
 /**
  * Proves if a given account exists or not in in the given deploy report.
@@ -194,7 +194,7 @@ exports.getAllAccounts = function(deployReport) {
 exports.accountExist = function(deployReport, account) {
   // use _ for contains prove
   return Object.keys(deployReport.accountToKey).indexOf(account) != -1;
-}
+};
 
 /**
  * Returns the private key for the given account.
@@ -207,7 +207,7 @@ exports.accountExist = function(deployReport, account) {
  */
 exports.getKey = function(deployReport, account) {
   return deployReport.accountToKey[account];
-}
+};
 
 /**
  * Returns the private key associated to the owner.
@@ -217,7 +217,7 @@ exports.getKey = function(deployReport, account) {
  */
 exports.getKeyForOwner = function(deployReport) {
   return getKey(deployReport, deployReport.owner);
-}
+};
 
 /**
  * Encodes a method call for a given contract.
@@ -255,4 +255,14 @@ exports.callMethod = async function(web3, abi, methodName, args, sender, contrac
   const gas = await web3.eth.estimateGas(transaction);
   transaction.gas = gas;
   return web3.eth.call(transaction);
-}
+};
+
+/**
+ * Returns the contract for a given deployment report.
+ *
+ * @param deployReport {string} the deployment report to be considered.
+ * @return {Contract} the contract for the given deployReport.
+ */
+exports.getContract = function getContract(web3, deployReport) {
+  return new web3.eth.Contract(deployReport.contract.abi, deployReport.contract.address);
+};
