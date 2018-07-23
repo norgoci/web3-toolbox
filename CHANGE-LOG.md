@@ -13,4 +13,5 @@
 host for the web3 client  
 * 2.0.6 - bug fix for getKey and getOwnerKey.
 * 3.0.0 - add typescript types
+* 3.0.1 - add the getContract method and code cosmetics
   
